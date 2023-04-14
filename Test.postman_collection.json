@@ -1,0 +1,830 @@
+{
+	"info": {
+		"_postman_id": "47119ffd-4b3d-4c71-99c0-b491ec98a7ac",
+		"name": "Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19426156"
+	},
+	"item": [
+		{
+			"name": "Due date tomorrow",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.assigner_id).to.be.null\r",
+							"    pm.expect(jsonData.assignee_id).to.be.null\r",
+							"    pm.expect(jsonData.project_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.section_id).to.be.null\r",
+							"    pm.expect(jsonData.parent_id).to.be.null\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.content).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.description).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.is_completed).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.labels).to.be.an(\"array\")\r",
+							"    pm.expect(jsonData.priority).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.creator_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.created_at).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.due).to.be.a(\"Object\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"var body = pm.response.json()\r",
+							"var serach= body.due\r",
+							"console.log(serach)\r",
+							"\r",
+							"pm.test(\"validar fecha de mañana\" ,function(){\r",
+							"   \r",
+							"pm.expect(serach.date).to.eqls( pm.environment.get(\"today\"));\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//obtener la fecha //\r",
+							"const moment = require('moment');\r",
+							"pm.environment.set(\"today\", moment().add(1,\"days\").format(\"YYYY-MM-DD\"));\r",
+							"\r",
+							"console.log(moment)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"due_string\": \"{{today}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/tasks/{{task_id}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"tasks",
+						"{{task_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fecha de vencimiento 2 semanas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.assigner_id).to.be.null\r",
+							"    pm.expect(jsonData.assignee_id).to.be.null\r",
+							"    pm.expect(jsonData.project_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.section_id).to.be.null\r",
+							"    pm.expect(jsonData.parent_id).to.be.null\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.content).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.description).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.is_completed).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.labels).to.be.an(\"array\")\r",
+							"    pm.expect(jsonData.priority).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.creator_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.created_at).to.be.a(\"string\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"var body = pm.response.json()\r",
+							"var serach= body.due\r",
+							"console.log(serach)\r",
+							"\r",
+							"pm.test(\"validar fecha de dos semanas\" ,function(){\r",
+							"   \r",
+							"pm.expect(serach.date).to.eqls( pm.environment.get(\"today\"));\r",
+							"\r",
+							"})\r",
+							"\r",
+							"pm.test(\"fecha invalida\" ,function(){\r",
+							"   \r",
+							"pm.expect(serach.date).to.eqls( \"2023-05-12\");\r",
+							"\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//obtener la fecha //\r",
+							"const moment = require('moment');\r",
+							"pm.environment.set(\"today\", moment().add(14,\"days\").format(\"YYYY-MM-DD\"));\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"due_string\": \"{{today}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_URL}}/tasks/{{task_id}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"tasks",
+						"{{task_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mayor prioridad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.assigner_id).to.be.null\r",
+							"    pm.expect(jsonData.assignee_id).to.be.null\r",
+							"    pm.expect(jsonData.project_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.section_id).to.be.null\r",
+							"    pm.expect(jsonData.parent_id).to.be.null\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.content).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.description).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.is_completed).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.labels).to.be.an(\"array\")\r",
+							"    pm.expect(jsonData.priority).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.creator_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.created_at).to.be.a(\"string\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"var body = pm.response.json()\r",
+							"pm.test(\"Mayor prioridad\" ,function(){\r",
+							"   \r",
+							"pm.expect(body.priority).to.eqls(4);\r",
+							"\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Response time is less than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"priority\": 4\r\n}"
+				},
+				"url": {
+					"raw": "{{base_URL}}/tasks/{{task_id}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"tasks",
+						"{{task_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sin prioridad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.assigner_id).to.be.null\r",
+							"    pm.expect(jsonData.assignee_id).to.be.null\r",
+							"    pm.expect(jsonData.project_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.section_id).to.be.null\r",
+							"    pm.expect(jsonData.parent_id).to.be.null\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.content).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.description).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.is_completed).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.labels).to.be.an(\"array\")\r",
+							"    pm.expect(jsonData.priority).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.creator_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.created_at).to.be.a(\"string\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"var body = pm.response.json()\r",
+							"var serach= body.due\r",
+							"console.log(body)\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"sin prioridad\" ,function(){\r",
+							"   \r",
+							"pm.expect(body.priority).to.eqls(1);\r",
+							"\r",
+							"})\r",
+							"pm.test(\"prioridad erronea\" ,function(){\r",
+							"   \r",
+							"pm.expect(body.priority).to.eqls(4);\r",
+							"\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"priority\": 1\r\n}"
+				},
+				"url": {
+					"raw": "{{base_URL}}/tasks/{{task_id}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"tasks",
+						"{{task_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Date null",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.assigner_id).to.be.null\r",
+							"    pm.expect(jsonData.assignee_id).to.be.null\r",
+							"    pm.expect(jsonData.project_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.section_id).to.be.null\r",
+							"    pm.expect(jsonData.parent_id).to.be.null\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.content).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.description).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.is_completed).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.labels).to.be.an(\"array\")\r",
+							"    pm.expect(jsonData.priority).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.creator_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.created_at).to.be.a(\"string\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"var body = pm.response.json()\r",
+							"var serach= body.due\r",
+							"console.log(serach)\r",
+							"\r",
+							"pm.test(\"validar fecha null\" ,function(){\r",
+							"   \r",
+							"pm.expect(body.due).to.be.null;\r",
+							"\r",
+							"})\r",
+							"\r",
+							"pm.test(\"validar fecha de dos semanas\" ,function(){\r",
+							"   \r",
+							"pm.expect(body.due).to.eqls( pm.environment.get(\"today\"));\r",
+							"\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//obtener la fecha //\r",
+							"const moment = require('moment');\r",
+							"pm.environment.set(\"today\", moment().add(14,\"days\").format(\"YYYY-MM-DD\"));\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\": \"{{$randomCatchPhrase}}\", \r\n    \"project_id\": {{project_id}},\r\n    \"priority\": 4\r\n}"
+				},
+				"url": {
+					"raw": "{{base_URL}}/tasks",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.assigner_id).to.be.null\r",
+							"    pm.expect(jsonData.assignee_id).to.be.null\r",
+							"    pm.expect(jsonData.project_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.section_id).to.be.null\r",
+							"    pm.expect(jsonData.parent_id).to.be.null\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.content).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.description).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.is_completed).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.labels).to.be.an(\"array\")\r",
+							"    pm.expect(jsonData.priority).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.creator_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.created_at).to.be.a(\"string\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});\r",
+							"\r",
+							"const body = pm.response.json()\r",
+							"const serach= body.due\r",
+							"console.log(serach)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var  options =[\"buy Coffe\",\"buy chocolate\",\"buy a computer\"]\r",
+							"\r",
+							"var Randomnumber = [1,2,3,4]\r",
+							"\r",
+							"pm.environment.set(\"Number\", Randomnumber[Math.floor(Math.random()*Randomnumber.length)])\r",
+							"\r",
+							"pm.environment.set(\"Content\",options[Math.floor(Math.random()*options.length)])\r",
+							"\r",
+							"var  Description =[\"buy Coffe of cuba\",\"buy white chocolate\",\"buy a desktop computer\"]\r",
+							"\r",
+							"pm.environment.set(\"Description_Content\",Description[Math.floor(Math.random()*Description.length)])\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n        \"content\": \"{{Content}}\",\r\n        \"description\": \"{{Description_Content}}\",\r\n        \"priority\": {{Number}},\r\n        \"due_string\": \"{{today}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_URL}}/tasks/{{task_id}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"tasks",
+						"{{task_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "-\tAdd project to favs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is below than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+							"});\r",
+							"pm.test(\"Response time is below than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.parent_id).to.be.null\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.color).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.name).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.is_shared).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_favorite).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_inbox_project).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_team_inbox).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.url).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.view_style).to.be.a(\"string\")\r",
+							"    \r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "is_favorite",
+							"value": "true",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_URL}}/projects/{{project_id}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"projects",
+						"{{project_id}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "-\tProject with fav color",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is below than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+							"});\r",
+							"pm.test(\"Response time is below than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.parent_id).to.be.null\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.color).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.name).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.is_shared).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_favorite).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_inbox_project).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_team_inbox).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.url).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.view_style).to.be.a(\"string\")\r",
+							"    \r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var  options =[\"berry_red\",\"red\",\"orange\",\"yellow\",\"olive_green\",\r",
+							"\"lime_green\",\"green\", \"mint_green\",\"teal\",\"sky_blue\",\"light_blue\",\r",
+							"\"blue\",\"grape\",\"violet\",\"lavender\",\"magenta\",\"salmon\",\"grey\",\"taupe\",\"charcoal\"]\r",
+							"\r",
+							"\r",
+							"pm.environment.set(\"Color\",options[Math.floor(Math.random()*options.length)])\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "color",
+							"value": "{{Color}}",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_URL}}/projects/{{project_id}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"projects",
+						"{{project_id}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add subTask",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var  DescriptionSubTask =[\"buy Coffe of cuba\",\"buy white chocolate\",\"buy a desktop computer\"]\r",
+							"\r",
+							"pm.environment.set(\"DescSubTask\",DescriptionSubTask[Math.floor(Math.random()*DescriptionSubTask.length)])"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.assigner_id).to.be.null\r",
+							"    pm.expect(jsonData.assignee_id).to.be.null\r",
+							"    pm.expect(jsonData.project_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.section_id).to.be.null\r",
+							"    pm.expect(jsonData.parent_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.content).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.description).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.is_completed).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.labels).to.be.an(\"array\")\r",
+							"    pm.expect(jsonData.priority).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.creator_id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.created_at).to.be.a(\"string\")\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"parent_id\": {{task_id}},\r\n        \"content\": \"{{DescSubTask}}\"\r\n}\r\n        "
+				},
+				"url": {
+					"raw": "{{base_URL}}/tasks",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token }}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,0 +1,368 @@
+{
+	"info": {
+		"_postman_id": "1897413e-1603-4a7b-8d30-08577d0fa948",
+		"name": "Todois_Projects",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19426156"
+	},
+	"item": [
+		{
+			"name": "GET_all_proyects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"console.log(jsonData)\r",
+							"\r",
+							"pm.test(\"Response time is below than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+							"});\r",
+							"pm.test(\"Response time is below than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "color",
+							"value": "{{$randomColor}}",
+							"type": "default",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_URL}}/projects",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add_new_project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jasonData = pm.response.json(); //almacenar la respuesta de mi request en una variable\r",
+							"pm.environment.set(\"project_id\", jasonData.id); //setear una varaible de ambiente en una variable anteriormente guardada\r",
+							"pm.test(\"Response time is below than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+							"});\r",
+							"pm.test(\"Response time is below than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.parent_id).to.be.null\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.color).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.name).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.is_shared).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_favorite).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_inbox_project).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_team_inbox).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.url).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.view_style).to.be.a(\"string\")\r",
+							"    \r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Vacaciones\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/projects",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Single_projects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is below than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+							"});\r",
+							"pm.test(\"Response time is below than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.parent_id).to.be.null\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.color).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.name).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.is_shared).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_favorite).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_inbox_project).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_team_inbox).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.url).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.view_style).to.be.a(\"string\")\r",
+							"    \r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"value": "",
+							"type": "default",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_URL}}/projects/{{project_id}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"projects",
+						"{{project_id}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is below than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+							"});\r",
+							"pm.test(\"Response time is below than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"-\tValidate schema\", ()=>{\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.parent_id).to.be.null\r",
+							"    pm.expect(jsonData.order).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.color).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.name).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.comment_count).to.be.a(\"number\")\r",
+							"    pm.expect(jsonData.is_shared).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_favorite).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_inbox_project).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.is_team_inbox).to.be.a(\"boolean\")\r",
+							"    pm.expect(jsonData.url).to.be.a(\"string\")\r",
+							"    pm.expect(jsonData.view_style).to.be.a(\"string\")\r",
+							"    \r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Things To Buy\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_URL}}/projects/{{project_id}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"projects",
+						"{{project_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is below than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+							"});\r",
+							"pm.test(\"Response time is below than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_URL}}/projects/{{project_id}}",
+					"host": [
+						"{{base_URL}}"
+					],
+					"path": [
+						"projects",
+						"{{project_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token }}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
